@@ -4,19 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.ms.remotecontroller.controller.RemoteController;
+import com.ms.remotecontroller.model.Button;
+import com.ms.remotecontroller.model.Controller;
+import com.ms.remotecontroller.model.Field;
 import com.ms.remotecontroller.databinding.ActivityMainBinding;
-import com.ms.remotecontroller.fieldviews.FieldView;
-import com.ms.remotecontroller.fieldviews.GridFieldView;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private LinearLayout baseLayout;
-    private RemoteController controller;
+    private Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
         baseLayout = findViewById(R.id.base_layout);
 
-        controller = new RemoteController(this);
-        controller.Init();
+        controller = new Controller();
+        controller.init(this);
 
-        FieldView<Button> buttonField = new GridFieldView<Button>(this, baseLayout, 3, "TEST");
-        buttonField.addView(RemoteController.createButton(this, "Test 1"));
-        buttonField.addView(RemoteController.createButton(this, "Test 2"));
-        buttonField.addView(RemoteController.createButton(this, "Test 3"));
-        buttonField.addView(RemoteController.createButton(this, "Test 4"));
-        buttonField.addView(RemoteController.createButton(this, "Test 5"));
+        Field field1 = controller.addChild(new Field());
+        Field field2 = controller.addChild(new Field());
+
+        field1.addChild(new Button());
+        field1.addChild(new Button());
+
+        field2.addChild(new Button());
+        field2.addChild(new Button());
+        field2.addChild(new Button());
+        field2.addChild(new Button());
+        field2.addChild(new Button());
+        field2.addChild(new Button());
+        field2.addChild(new Button());
     }
 
     public ViewGroup getMainGroup(){
