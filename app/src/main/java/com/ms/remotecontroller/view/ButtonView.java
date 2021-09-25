@@ -16,7 +16,9 @@ public class ButtonView extends View<Button> {
     }
 
     @Override
-    public void onRemove() { }
+    public void onRemove() {
+        getParentViewHost().removeView(button);
+    }
 
     @Override
     public ViewHost getViewHost() {

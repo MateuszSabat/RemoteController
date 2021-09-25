@@ -1,18 +1,22 @@
 package com.ms.remotecontroller.view;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ms.remotecontroller.controller.FieldController;
 import com.ms.remotecontroller.model.Field;
 import com.ms.remotecontroller.view.viewhost.ViewHost;
 import com.ms.remotecontroller.view.viewhost.CenteredGrid;
 
 public class FieldView extends View<Field> {
     private LinearLayout parent;
-    private TextView nameView;
+    private EditText nameView;
     private CenteredGrid grid;
 
     @Override
@@ -26,7 +30,9 @@ public class FieldView extends View<Field> {
     }
 
     @Override
-    public void onRemove() { }
+    public void onRemove() {
+        getParentViewHost().removeView(parent);
+    }
 
     @Override
     public ViewHost getViewHost() {
@@ -40,7 +46,7 @@ public class FieldView extends View<Field> {
 
 
 
-    private static LinearLayout createParent(Activity activity){
+    private LinearLayout createParent(Activity activity){
         LinearLayout parent = new LinearLayout(activity);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         parent.setLayoutParams(params);
@@ -48,12 +54,13 @@ public class FieldView extends View<Field> {
         parent.setOrientation(LinearLayout.VERTICAL);
         return parent;
     }
-    private static TextView createName(Activity activity){
-        TextView name = new TextView(activity);
+    private EditText createName(Activity activity){
+        EditText name = new EditText(activity);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         name.setLayoutParams(params);
         name.setTextAlignment(android.view.View.TEXT_ALIGNMENT_CENTER);
         name.setPadding(0, 80, 0, 20);
+        name.addTextChangedListener(FieldController.fieldNameWatcher(getModel()));
         return name;
     }
 }
