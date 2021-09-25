@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Remote Controller</string>
+    <string name="btn_gate">Gate</string>
+    <string name="btn_garrage">Garrage</string>
+</resources>
