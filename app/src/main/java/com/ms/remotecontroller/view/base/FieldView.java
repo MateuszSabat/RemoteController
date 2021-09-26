@@ -12,9 +12,9 @@ import com.ms.remotecontroller.view.viewhost.ViewHost;
 import com.ms.remotecontroller.view.viewhost.CenteredGrid;
 
 public abstract class FieldView extends View<Field> {
-    private LinearLayout parentView;
-    private TextView nameView;
-    private CenteredGrid gridView;
+    protected LinearLayout parentView;
+    protected TextView nameView;
+    protected CenteredGrid gridView;
 
     @Override
     public void beforeChildrenSpawn() {
@@ -22,8 +22,8 @@ public abstract class FieldView extends View<Field> {
         nameView = createName(getModel().getActivity());
         gridView = new CenteredGrid(getModel().getActivity(), parentView, 3);
 
-        parentView.addView(nameView);
         getParentViewHost().addView(parentView);
+        parentView.addView(nameView);
     }
 
     @Override

@@ -54,11 +54,11 @@ public abstract class Model implements Serializable {
     }
 
     public void remove(){
-        for(Model child : children){
-            child.remove();
+        for(int i=children.size()-1; i>=0; i--){
+            children.get(i).remove();
         }
-
         view.remove();
+        parent.children.remove(this);
     }
 
     public <M extends Model> M addChild(M model){

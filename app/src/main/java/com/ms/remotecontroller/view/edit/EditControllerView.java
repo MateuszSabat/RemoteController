@@ -16,6 +16,7 @@ public class EditControllerView extends ControllerView {
 
     @Override
     public void afterChildrenSpawn() {
+        super.afterChildrenSpawn();
         addButton = createAddButton(getActivity());
         getViewHost().addView(addButton);
     }
