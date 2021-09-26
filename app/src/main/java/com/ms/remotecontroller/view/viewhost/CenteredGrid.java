@@ -81,7 +81,9 @@ class Row {
     }
 
     public View removeFirst(){
-        return views.remove(0);
+        View view = views.remove(0);
+        layout.removeView(view);
+        return view;
     }
 
     public void removeItself(LinearLayout vertical){
