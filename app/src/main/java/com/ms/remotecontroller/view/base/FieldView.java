@@ -1,50 +1,40 @@
-package com.ms.remotecontroller.view;
+package com.ms.remotecontroller.view.base;
 
 import android.app.Activity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ms.remotecontroller.controller.FieldController;
 import com.ms.remotecontroller.model.Field;
+import com.ms.remotecontroller.view.View;
 import com.ms.remotecontroller.view.viewhost.ViewHost;
 import com.ms.remotecontroller.view.viewhost.CenteredGrid;
 
-public class FieldView extends View<Field> {
-    private LinearLayout parent;
-    private EditText nameView;
-    private CenteredGrid grid;
+public abstract class FieldView extends View<Field> {
+    private LinearLayout parentView;
+    private TextView nameView;
+    private CenteredGrid gridView;
 
     @Override
-    public void onInit() {
-        parent = createParent(getModel().getActivity());
+    public void beforeChildrenSpawn() {
+        parentView = createParent(getModel().getActivity());
         nameView = createName(getModel().getActivity());
-        grid = new CenteredGrid(getModel().getActivity(), parent, 3);
+        gridView = new CenteredGrid(getModel().getActivity(), parentView, 3);
 
-        parent.addView(nameView);
-        getParentViewHost().addView(parent);
+        parentView.addView(nameView);
+        getParentViewHost().addView(parentView);
     }
 
     @Override
     public void onRemove() {
-        getParentViewHost().removeView(parent);
+        getParentViewHost().removeView(parentView);
     }
 
     @Override
     public ViewHost getViewHost() {
-        return grid;
+        return gridView;
     }
-
-    @Override
-    public void refresh() {
-        nameView.setText(getModel().getName());
-    }
-
-
 
     private LinearLayout createParent(Activity activity){
         LinearLayout parent = new LinearLayout(activity);
@@ -54,13 +44,14 @@ public class FieldView extends View<Field> {
         parent.setOrientation(LinearLayout.VERTICAL);
         return parent;
     }
-    private EditText createName(Activity activity){
-        EditText name = new EditText(activity);
+    private TextView createName(Activity activity){
+        TextView name = createNameView(activity);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         name.setLayoutParams(params);
         name.setTextAlignment(android.view.View.TEXT_ALIGNMENT_CENTER);
         name.setPadding(0, 80, 0, 20);
-        name.addTextChangedListener(FieldController.fieldNameWatcher(getModel()));
+        name.setText(getModel().getName());
         return name;
     }
+    protected abstract TextView createNameView(Activity activity);
 }

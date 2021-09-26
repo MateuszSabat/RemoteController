@@ -1,19 +1,23 @@
-package com.ms.remotecontroller.view;
+package com.ms.remotecontroller.view.base;
 
 import android.app.Activity;
 import android.view.ViewGroup;
 
 import com.ms.remotecontroller.model.Button;
+import com.ms.remotecontroller.view.View;
 import com.ms.remotecontroller.view.viewhost.ViewHost;
 
-public class ButtonView extends View<Button> {
+public abstract class ButtonView extends View<Button> {
     private android.widget.Button button;
 
     @Override
-    public void onInit() {
-        button = createButton(getModel().getActivity());
+    public void beforeChildrenSpawn() {
+        button = createButton(getActivity());
+        button.setText(getModel().getName());
+        onCreateButton(button);
         getParentViewHost().addView(button);
     }
+    protected abstract void onCreateButton(android.widget.Button button);
 
     @Override
     public void onRemove() {
@@ -23,11 +27,6 @@ public class ButtonView extends View<Button> {
     @Override
     public ViewHost getViewHost() {
         return null;
-    }
-
-    @Override
-    public void refresh() {
-        button.setText(getModel().getName());
     }
 
     public static android.widget.Button createButton(Activity activity){

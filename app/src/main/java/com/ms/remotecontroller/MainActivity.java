@@ -3,7 +3,6 @@ package com.ms.remotecontroller;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.ms.remotecontroller.controller.serialization.ModelSerializer;
 import com.ms.remotecontroller.model.Button;
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         controller = spawnController();
         controller.init(this);
+        controller.refreshView(false);
     }
 
     @Override

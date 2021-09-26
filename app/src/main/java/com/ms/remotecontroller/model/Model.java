@@ -15,31 +15,49 @@ public abstract class Model implements Serializable {
     protected Model parent;
     protected ArrayList<Model> children = new ArrayList<>();
 
-    protected abstract View createView();
+    protected abstract View createView(boolean edit);
 
-    protected void onInit(){}
-    protected void onRemove(){}
 
     public void init(Activity activity){
         if(isInitialized) return;
         isInitialized = true;
 
         this.activity = activity;
-        view = createView();
-
-        view.init(this);
-        onInit();
 
         for(Model child : children){
             child.init(activity);
         }
     }
+
+    public void refreshView(boolean edit){
+        removeView();
+        spawnView(edit);
+    }
+
+    private void removeView(){
+        for(Model child : children){
+            child.removeView();
+        }
+        if(view != null) {
+            view.remove();
+            view = null;
+        }
+    }
+    private void spawnView(boolean edit){
+        view = createView(edit);
+        view.init(this);
+        view.beforeChildrenSpawn();
+        for(Model child : children){
+            child.spawnView(edit);
+        }
+        view.afterChildrenSpawn();
+    }
+
     public void remove(){
         for(Model child : children){
             child.remove();
         }
 
-        onRemove();
         view.remove();
     }
 
